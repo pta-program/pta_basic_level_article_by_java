@@ -228,6 +228,26 @@
       }
     };
 
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+
+    window.$docsify.plugins = [function (hook) {
+      hook.doneEach(function () {
+        var container = document.querySelector('.markdown-section');
+        if (window.MathJax && container) {
+          window.MathJax.typesetClear([container]);
+          window.MathJax.typesetPromise([container]);
+        }
+      });
+    }];
+
     (function () {
       var button = document.getElementById('darklight-toggle');
       var media = window.matchMedia('(prefers-color-scheme: dark)');
@@ -259,6 +279,7 @@
       });
     })();
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js"></script>
   <script>
     mermaid.initialize({
